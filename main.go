@@ -1,7 +1,8 @@
 package main
 
-import "fmt"
+import "net/http"
 
 func main() {
-	fmt.Println("Hello!")
+	//Handlers
+	http.HandleFunc("/", base.Index)
 }
