@@ -9,7 +9,6 @@ import (
 )
 
 func main() {
-
 	//Handlers
 	///Base
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
