@@ -3,13 +3,15 @@ package accounts
 import (
 	"fmt"
 	"net/http"
+
+	"github.com/zanefinner-templates/blog/template"
 )
 
 //Signup resolves /accounts/signup
 func Signup(w http.ResponseWriter, r *http.Request) {
 	if r.Method == http.MethodGet {
 
-		//Show form
+		template.ExecuteTemplate(w, "index.tmpl", nil)
 
 	} else if r.Method == http.MethodPost {
 
