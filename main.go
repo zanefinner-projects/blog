@@ -10,7 +10,7 @@ import (
 func main() {
 	//Handlers
 	///Base
-	go http.HandleFunc("/", base.Index)
+	http.HandleFunc("/", base.Index)
 	http.HandleFunc("/about", base.About)
 	log.Fatal(http.ListenAndServe(":3000", nil))
 }
