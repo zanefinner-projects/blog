@@ -12,7 +12,7 @@ func ShowAll(w http.ResponseWriter, r *http.Request) {
 }
 
 //Show resolves /posts/id
-func Show(w http.ResponseWriter, r *http.Request, id int) {
+func Show(w http.ResponseWriter, r *http.Request) {
 	//show based on id
 	fmt.Println("ANY: /posts/{id}")
 }
