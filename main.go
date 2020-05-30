@@ -21,8 +21,8 @@ func main() {
 	//Accounts
 	http.HandleFunc("/accounts/login/", accounts.Login)     //READ
 	http.HandleFunc("/accounts/signup/", accounts.Signup)   //CREATE
-	http.HandleFunc("/accounts/settings/", accounts.Update) //UPDATE
-	http.HandleFunc("/accounts/delete/", accounts.Delete)   //DELETE
+	http.HandleFunc("/accounts/settings/", accounts.Update) //UPDATE*
+	http.HandleFunc("/accounts/delete/", accounts.Delete)   //DELETE*
 
 	//Posts
 	http.HandleFunc("/posts/create/", posts.Create)    //CREATE
