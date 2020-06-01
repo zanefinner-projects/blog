@@ -4,15 +4,16 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/zanefinner-templates/blog/accounts"
-	"github.com/zanefinner-templates/blog/posts"
+	"github.com/zanefinner-projects/blog/accounts"
+	"github.com/zanefinner-projects/blog/posts"
+	"github.com/zanefinner-projects/blog/template"
 )
 
 func main() {
 	//Handlers
 	///Base
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		http.Redirect(w, r, "/static/hello.html", 301)
+		template.Build("Home", "Hello world!")
 	})
 
 	//Static Pages

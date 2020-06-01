@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/zanefinner-templates/blog/config"
+	"github.com/zanefinner-projects/blog/config"
 )
 
 //Login resolves /accounts/login

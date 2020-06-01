@@ -6,7 +6,7 @@ import (
 	"net/http"
 
 	_ "github.com/go-sql-driver/mysql" //this is okay because we also called database/sql
-	"github.com/zanefinner-templates/blog/config"
+	"github.com/zanefinner-projects/blog/config"
 )
 
 //Signup resolves /accounts/signup

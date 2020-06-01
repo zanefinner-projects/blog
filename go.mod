@@ -1,5 +1,3 @@
-module github.com/zanefinner-templates/blog
+module github.com/zanefinner-projects/blog
 
 go 1.14
-
-require github.com/go-sql-driver/mysql v1.5.0
