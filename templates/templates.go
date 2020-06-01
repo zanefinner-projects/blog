@@ -1,6 +1,10 @@
 package templates
 
-import "html/template"
+import (
+	"fmt"
+	"html/template"
+	"net/http"
+)
 
 type page struct {
 	Title   string
@@ -8,15 +12,16 @@ type page struct {
 }
 
 //Build creates views base on template files
-func Build(title, content string) bool {
+func Build(w http.ResponseWriter, r *http.Request, title, content string) bool {
 	execPage := page{
 		Title:   title,
 		Content: content,
 	}
-	temp, err := template.ParseFiles('templates/index.html')
+	temp, err := template.ParseFiles("templates/index.html")
 	if err != nil {
 		fmt.Println(err)
 		return false
 	}
 	temp.Execute(w, execPage)
+	return true
 }

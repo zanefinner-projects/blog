@@ -1,22 +1,27 @@
 package main
 
 import (
+	"fmt"
 	"log"
 	"net/http"
 
 	"github.com/zanefinner-projects/blog/accounts"
 	"github.com/zanefinner-projects/blog/posts"
-	"github.com/zanefinner-projects/blog/template"
+	"github.com/zanefinner-projects/blog/templates"
 )
 
 func main() {
 	//Handlers
 	///Base
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		template.Build("Home", "Hello world!")
+		if r.URL.Path != "/" {
+			fmt.Fprint(w, "Not found :/")
+			return
+		}
+		templates.Build(w, r, "Hello", "Content")
 	})
 
-	//Static Pages
+	//Static
 	http.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("static"))))
 
 	//Accounts
@@ -27,9 +32,9 @@ func main() {
 
 	//Posts
 	http.HandleFunc("/posts/create/", posts.Create)    //CREATE
-	http.HandleFunc("/posts/", posts.Show)             //READ           //READ
+	http.HandleFunc("/posts/", posts.Show)             //READ
 	http.HandleFunc("/posts/:id/delete", posts.Delete) //DELETE
 	http.HandleFunc("/posts/:id/update", posts.Update) //UPDATE
 
-	log.Fatal(http.ListenAndServe(":3000", nil))
+	log.Fatal(http.ListenAndServe(":8000", nil))
 }
