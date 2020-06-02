@@ -3,14 +3,16 @@ package posts
 import (
 	"database/sql"
 	"fmt"
+	"html/template"
 	"net/http"
 
 	"github.com/zanefinner-projects/blog/config"
+	"github.com/zanefinner-projects/blog/templates"
 )
 
 //PostsInList struct for list view items
 type postsInList struct {
-	ID    int
+	ID    string
 	Title string
 }
 
@@ -45,22 +47,31 @@ func Show(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 		defer db.Close()
-
+		var output template.HTML
+		var outputString string
 		results, err := db.Query("SELECT id, title FROM posts")
 		if err != nil {
 			fmt.Println(err)
 		}
-
+		var posts []postsInList
+		itt := 0
 		for results.Next() {
-			var post postsInList
-			// for each row, scan the result into our tag composite object
-			err = results.Scan(&post.ID, &post.Title)
+			itt++
+			var tmp postsInList
+			err = results.Scan(&tmp.ID, &tmp.Title)
 			if err != nil {
 				fmt.Println(err)
 				return
 			}
+			posts = append(posts, tmp)
 
-			fmt.Fprintln(w, post.Title, "<hr>")
 		}
+		for key, val := range posts {
+			fmt.Println(key, val)
+			outputString += "<a href='/posts/?id=" + string(val.ID) + "'>" + val.Title + "</a><br>"
+		}
+		output = template.HTML(outputString)
+		templates.Build(w, r, "Posts", output)
+		fmt.Println(output)
 	}
 }

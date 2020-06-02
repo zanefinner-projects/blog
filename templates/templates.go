@@ -8,11 +8,11 @@ import (
 
 type page struct {
 	Title   string
-	Content string
+	Content template.HTML
 }
 
 //Build creates views base on template files
-func Build(w http.ResponseWriter, r *http.Request, title, content string) bool {
+func Build(w http.ResponseWriter, r *http.Request, title string, content template.HTML) bool {
 	execPage := page{
 		Title:   title,
 		Content: content,
