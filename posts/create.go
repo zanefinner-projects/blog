@@ -3,17 +3,30 @@ package posts
 import (
 	"database/sql"
 	"fmt"
+	"html/template"
 	"net/http"
 
 	_ "github.com/go-sql-driver/mysql" //this is okay because we also called database/sql
 	"github.com/zanefinner-projects/blog/config"
+	"github.com/zanefinner-projects/blog/templates"
 )
 
 //Create resolves /posts/create
 func Create(w http.ResponseWriter, r *http.Request) {
+
 	if r.Method == http.MethodGet {
-		fmt.Println("GET: /posts/create")
-		http.Redirect(w, r, "/static/new-post.html", 302)
+		var form template.HTML
+		form = `
+			<form method="post" action="/posts/create/">
+			<input type="text" name="email" placeholder="Email"/><br>
+        <input type="password" name="password" placeholder="Password"/><br>
+        <input type="password" name="key" placeholder="Key (email admin someone@something.com)"/><br>
+        <input type="text" name="title" placeholder="Title" /> <br>
+        <textarea name="content" placeholder="Content"></textarea>
+		<button name="submit" type="submit">Post</button>
+		</form>
+		`
+		_ = templates.Build(w, r, "Create a new post", form)
 
 	} else if r.Method == http.MethodPost {
 		fmt.Println("POST: /posts/create")
@@ -29,15 +42,13 @@ func Create(w http.ResponseWriter, r *http.Request) {
 					return
 				}
 				var insForm *sql.Stmt
-				var res sql.Result
 				insForm, err = db.Prepare("INSERT INTO posts(title, content) VALUES(?,?)")
-				res, err = insForm.Exec(r.PostFormValue("title"), r.PostFormValue("content"))
+				_, err = insForm.Exec(r.PostFormValue("title"), r.PostFormValue("content"))
 				if err != nil {
 					fmt.Println(err)
 					return
 				}
-				fmt.Println(res)
-
+				templates.Build(w, r, "Success!", "<a href='/'>home</a>")
 			} else {
 				fmt.Println(message)
 			}
