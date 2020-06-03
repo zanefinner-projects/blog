@@ -24,7 +24,7 @@ func main() {
 	http.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("static"))))
 
 	//Accounts
-	http.HandleFunc("/accounts/login/", accounts.Login)   //READ
+	//http.HandleFunc("/accounts/login/", accounts.Login)>>Login is redundent. You use credentials while posting!
 	http.HandleFunc("/accounts/signup/", accounts.Signup) //CREATE
 
 	//Posts
@@ -33,5 +33,5 @@ func main() {
 	http.HandleFunc("/posts/:id/delete", posts.Delete) //DELETE*
 	http.HandleFunc("/posts/:id/update", posts.Update) //UPDATE*
 
-	log.Fatal(http.ListenAndServe(":8000", nil))
+	log.Fatal(http.ListenAndServe(":7000", nil))
 }

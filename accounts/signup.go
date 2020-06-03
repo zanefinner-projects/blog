@@ -3,16 +3,28 @@ package accounts
 import (
 	"database/sql"
 	"fmt"
+	"html/template"
 	"net/http"
 
 	_ "github.com/go-sql-driver/mysql" //this is okay because we also called database/sql
 	"github.com/zanefinner-projects/blog/config"
+	"github.com/zanefinner-projects/blog/templates"
 )
 
 //Signup resolves /accounts/signup
 func Signup(w http.ResponseWriter, r *http.Request) {
 	if r.Method == http.MethodGet {
-		http.Redirect(w, r, "/static/signup.html", 301)
+		form := `
+			<form method="post" action="/accounts/signup/">
+			
+			<input type="text" name="email" placeholder="Email"/><br>
+			<input type="text" name="name" placeholder="Full Name"/><br>
+			<input type="password" name="password" placeholder="Password"/><br>
+			<input type="password" name="password-repeat" placeholder="Repeat Password"/><br>
+			<button class="btn btn-secondary" type="submit">Sign Up</button>
+			</form>`
+
+		templates.Build(w, r, "Sign Up", template.HTML(form))
 
 	} else if r.Method == http.MethodPost {
 		r.ParseForm()
@@ -32,22 +44,17 @@ func Signup(w http.ResponseWriter, r *http.Request) {
 			if err != nil {
 				panic(err.Error())
 			}
-			var res sql.Result
-			res, err = insForm.Exec(r.PostFormValue("name"), r.PostFormValue("email"), r.PostFormValue("password"))
+
+			_, err = insForm.Exec(r.PostFormValue("name"), r.PostFormValue("email"), r.PostFormValue("password"))
 			if err != nil {
 				fmt.Println(err)
 				return
 			}
-			fmt.Println(res)
+			templates.Build(w, r, "Signup Successful", template.HTML("You can now post! <br/><a href='/'>home</a>"))
 
 		} else {
-			fmt.Println("There was an invalid credential...")
-			fmt.Println(message)
+			templates.Build(w, r, "Signup Error", template.HTML(message+"<br/><a href='/accounts/signup/'>try again</a>"))
 		}
-		//Take in data
-		//Validate (prevent sql injection)
-		//Match to see if exists
-		//If all is good, start a session
 	}
 	fmt.Println("ANY: /accounts/signup")
 }

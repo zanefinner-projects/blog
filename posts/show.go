@@ -37,7 +37,7 @@ func Show(w http.ResponseWriter, r *http.Request) {
 		if err != nil {
 			fmt.Println(err)
 		}
-		fmt.Fprintf(w, title, content)
+		templates.Build(w, r, title, template.HTML(content))
 	} else {
 
 		name, pword, dbname := config.GetDbCreds()
