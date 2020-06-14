@@ -12,7 +12,7 @@ import (
 func main() {
 	//Handlers
 	///Base
-	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {git p
 		if r.URL.Path != "/" {
 			fmt.Fprint(w, "Not found :/")
 			return
